@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 /* const LoginToken = "askfdiarey877r9dfasrea"
@@ -302,7 +303,46 @@ func (u User) NewMail() {
 
 //defer in golang
 
-func main() {
+/* func main() {
 	defer fmt.Println("hello defer")
 	fmt.Println("defer tutorial in golang")
+}
+*/
+
+//working with files in golang
+
+func main() {
+	fmt.Println("welcome to the file handling")
+
+	/* content := "This need to go in  file - testconfig"
+
+	file, err := os.Create("./myTestFilte.txt")
+
+	if err != nil {
+		panic(err)
+	}
+
+	length, err := io.WriteString(file, content)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("The length of the file is ", length)
+
+	defer file.Close() */
+
+	readFile("./myTestFilte.txt")
+}
+
+func readFile(filename string) {
+
+	dataByte, err := os.ReadFile(filename)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("The data in the file is :\n", string(dataByte))
+
 }
