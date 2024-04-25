@@ -339,10 +339,13 @@ func readFile(filename string) {
 
 	dataByte, err := os.ReadFile(filename)
 
+	checkNilErr(err)
+	fmt.Println("The data in the file is :\n", string(dataByte))
+
+}
+
+func checkNilErr(err error) {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println("The data in the file is :\n", string(dataByte))
-
 }
