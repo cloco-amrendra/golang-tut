@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -41,6 +42,25 @@ func (c *Course) IsEMpty() bool {
 
 func main() {
 
+	fmt.Println("API - LearnCodeOnline.in")
+	r := mux.NewRouter()
+
+	//routing
+
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/course/{id}", getOnceCourse).Methods("GET")
+	r.HandleFunc("/courses", createOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/course/{id}", deleteOneCourse).Methods("DELETE")
+
+	//seding data
+
+	courses = append(courses, Course{CourseId: "2", CourseName: "React Js", CoursePrice: 299, Author: &Author{Fullname: "Amrendra Yadav", Website: "yadav.dev"}})
+	courses = append(courses, Course{CourseId: "4", CourseName: "MERN STACK", CoursePrice: 2299, Author: &Author{Fullname: "Amrendra Yadav", Website: "yadav.dev"}})
+
+	log.Fatal(http.ListenAndServe(":4000", r))
+
 }
 
 //controllers into another file
@@ -69,10 +89,10 @@ func getOnceCourse(w http.ResponseWriter, r *http.Request) {
 	for _, course := range courses {
 		if course.CourseId == params["id"] {
 			json.NewEncoder(w).Encode(course)
+			break
+
 		}
 	}
-
-	json.NewEncoder(w).Encode("No course found with the given id")
 
 	return
 
